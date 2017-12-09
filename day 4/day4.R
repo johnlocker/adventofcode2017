@@ -1,4 +1,4 @@
-dat <- readr::read_lines(file.path("day 4", 'input.txt'))
+dat <- readr::read_lines(file.path("day 4", "input.txt"))
 
 validPassphrase <-  function(dat, part1 = TRUE) {
   dupVec <- vector(length = length(dat))
