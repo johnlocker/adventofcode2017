@@ -45,19 +45,19 @@ cat("\nTotal damage: ", sum(damage), "\n")
 
 delay <- 0
 notThrough <- TRUE
+layDF <- layDF[layDF$scannerPosition != 0, ]
+rangeVec <- layDF$range
+depthVec <- layDF$depth
+startTime <- Sys.time()
 while (notThrough) {
-  notThrough <- FALSE
-  for (i in 1:nrow(layDF)) {
-    if (layDF$scannerPosition[i] == 0) {
-      next
-    }
-    depthDelay <- layDF$depth[i] + delay
-    if (depthDelay %% ( (layDF$range[i] - 1) * 2) == 0) {
-      notThrough <- TRUE
-      delay <- delay + 1
-      break
-    }
+  notThrough <- any(sapply(c(1:length(rangeVec)), function(x) {
+    (depthVec[x] + delay) %% ( (rangeVec[x] - 1) * 2) == 0
+  }))
+  if (notThrough) {
+    delay <- delay + 2
+    delay <- ifelse(delay %% 4 == 0, delay + 2, delay)
   }
-  cat("\nCurrent delay: ", delay, "\n")
 }
 cat("\nFinal delay: ", delay, "\n")
+endTime <- Sys.time()
+difftime(endTime, startTime, units = "sec")
