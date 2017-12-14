@@ -10,8 +10,8 @@ partB <- TRUE
 # readIn_lengths <- "1,2,3" # nolint
 makeByte <- function(x) {
   x <- unlist(strsplit(x, split = ""))
-  patNums <- as.character(c(",", " ", 0:9, letters, toupper(letters)))
-  repNums <- as.character(c("44", 32, 48:57, 97:122, 65:90))
+  patNums <- as.character(c(",", "-", " ", 0:9, letters, toupper(letters)))
+  repNums <- as.character(c("44", "45", 32, 48:57, 97:122, 65:90))
   for (j in 1:length(patNums)) {
     x[x == patNums[j]] <- gsub(patNums[j], repNums[j], x[x == patNums[j]])
   }
@@ -69,7 +69,9 @@ makeDenseRing <- function(x) {
 denseRing <- unlist(lapply(split(ring, ceiling(seq_along(ring) / 16)), makeDenseRing))
 
 makeHexRing <- function(x) {
-  return(paste(as.hexmode(x), collapse = ""))
+  hex <- as.character(as.hexmode(x))
+  returnHex <- ifelse(nchar(hex) == 1, paste0("0", hex), hex)
+  return(paste(returnHex, collapse = ""))
 }
 
 hexRing <- paste(sapply(denseRing, makeHexRing), collapse = "")
