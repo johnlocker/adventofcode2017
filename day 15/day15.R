@@ -34,8 +34,8 @@ while (on <= maxIter) {
   } else {
     multiplyA <- remA * factorA
     multiplyB <- remB * factorB
-    remA <- multiplyA %% remainer
-    remB <- multiplyB %% remainer
+    remA <- multiplyA %% remainder
+    remB <- multiplyB %% remainder
   }
   bitA <- as.integer(intToBits(remA))
   bitB <- as.integer(intToBits(remB))
